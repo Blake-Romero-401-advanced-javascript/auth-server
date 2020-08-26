@@ -30,9 +30,18 @@ router.post('/signin', basicAuth, (req, res, next) => {
 });
 
 router.get('/users', (req, res, next) => {
-  res.send({
-    user: req.user,
-  })
+  user.find()
+    .then(info => {
+      res.status(200).json(info);
+    });
+  // res.send({
+  //   user: req.user,
+  // })
+});
+
+router.get('/oauth', OAuthMiddleware, (req, res, next) => {
+  res.status(200).send(req.token);
+  //?
 })
 
 module.exports = router;
