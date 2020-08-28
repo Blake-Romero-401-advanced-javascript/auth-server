@@ -8,11 +8,11 @@ const users = require('./users-model');
   https://developer.github.com/apps/building-oauth-apps/
 */
 
-const tokenServerUrl = 'https://github.com/login/oauth/access_token'; //EDIT ROUTE
-const remoteAPI = 'https://api.github.com/user'; //EDIT ROUTE
+const tokenServerUrl = 'https://github.com/login/oauth/access_token';
+const remoteAPI = 'https://api.github.com/user';
 const API_SERVER = 'http://localhost:3000/oauth';
-const CLIENT_ID = process.env.GITHUB_CLIENT_ID;  //EDIT APP NAME
-const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET; //EDIT APP NAME
+const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 module.exports = async function authorize(req, res, next) {
 
@@ -24,7 +24,7 @@ module.exports = async function authorize(req, res, next) {
     console.log('(2) ACCESS TOKEN:', remoteToken);
 
     let remoteUser = await getRemoteUserInfo(remoteToken);
-    console.log('(3) LINKEDIN USER', remoteUser); // EDIT ____ USER
+    console.log('(3) GITHUB USER', remoteUser);
 
     let [user, token] = await getUser(remoteUser);
     req.user = user;
