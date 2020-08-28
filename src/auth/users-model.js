@@ -9,7 +9,7 @@ const users = new mongoose.Schema({
   password: { type: String, required: true },
   email: { type: String },
   fullname: { type: String },
-  role: { type: String, required: true, enum: ['admin', 'editor', 'writer', 'user']},
+  role: { type: String, required: true, default: 'user', enum: ['admin', 'editor', 'writer', 'user']},
 });
 
 users.pre('save', async function() {
@@ -21,11 +21,12 @@ users.pre('save', async function() {
 users.statics.authenticeBasic = async function (username, password) {
   let query = { username };
   const user = await this.findOne(query);
-  if (user) {
-    return await user.comparePassword(password);
-  } else {
-    return null;
-  }
+  return user && await user.comparePassword(password);
+  // if (user) {
+  //   return await user.comparePassword(password);
+  // } else {
+  //   return null;
+  // }
 }
 
 users.methods.comparePassword = async function(plainPassword) {

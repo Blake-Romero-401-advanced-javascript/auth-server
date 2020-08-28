@@ -12,4 +12,4 @@ const options = {
 
 mongoose.connect(process.env.MONGODB_URI, options);
 
-require('./src/app.js').start(process.env.PORT);
+require('./src/server.js').start(process.env.PORT);
