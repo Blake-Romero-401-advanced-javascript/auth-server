@@ -1,16 +1,17 @@
 'use strict';
 
 const superagent = require('superagent');
-const users = require('./users-model');
+const User = require('./users-model.js');
+require('dotenv').config();
 
 /*
   Resources
   https://developer.github.com/apps/building-oauth-apps/
 */
 
-const tokenServerUrl = 'https://github.com/login/oauth/access_token';
-const remoteAPI = 'https://api.github.com/user';
-const API_SERVER = 'http://localhost:3000/oauth';
+const tokenServerUrl = process.env.GITHUB_TOKEN_SERVER;
+const remoteAPI = process.env.GITHUB_REMOTE_API;
+const API_SERVER = process.env.OAUTH_API_SERVER;
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
@@ -66,13 +67,17 @@ async function getRemoteUserInfo(token) {
 }
 
 async function getUser(remoteUser) {
-  let userRecord = {
-    username: remoteUser.login,
-    password: 'oauthpassword', // Placeholder for now
-  };
+  let user =  await User.createFromOauth(remoteUser.login);
 
-  let user = await users.save(userRecord);
-  let token = users.generateToken(user);
+  let token = user.generateToken();
+  // let token = 'skdjfn2984r9wenfo3';
+  // let userRecord = {
+  //   username: remoteUser.login,
+  //   password: 'oauthpassword', // Placeholder for now
+  // };
+
+  // let user = await Users.save(userRecord);
+  // let token = Users.generateToken(user);
 
   return [user, token];
 
