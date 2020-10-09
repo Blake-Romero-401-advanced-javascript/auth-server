@@ -3,7 +3,7 @@
 require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
-const server = require('../server.js').server;
+const server = require('../src/server').server;
 const supergoose = require('@code-fellows/supergoose');
 
 const mockRequest = supergoose(server);

@@ -8,6 +8,8 @@ const oauthMiddleware = require('./oauth.js');
 const bearerAuth = require('./bearer-auth.js');
 const usersModel = require('./users-model.js');
 
+let secret = process.env.SECRET;
+
 router.post('/signup', async (req, res, next) => {
   const user = await Users.create(req.body);
 
@@ -44,26 +46,20 @@ router.post('/signin', basicAuth, (req, res, next) => {
 
 });
 
-// router.get('/users', (req, res, next) => {
-//   user.find()
-//     .then(info => {
-//       res.status(200).json(info);
-//     });
-//   // res.send({
-//   //   user: req.user,
-//   // })
-// });
+router.get('/users', (req, res) => {
+  res.status(200).json(info);
+});
 
 router.get('/oauth', oauthMiddleware, (req, res, next) => {
   res.status(200).send(req.token);
   //?
 });
 
-router.get('/users', bearerAuth, (req, res, next) => {
-  usersModel.find({})
-  .then(users => {
-    res.status(200).json(req.user);
-  }).catch(next);
-});
+// router.get('/users', bearerAuth, (req, res, next) => {
+//   usersModel.find({})
+//   .then(users => {
+//     res.status(200).json(req.user);
+//   }).catch(next);
+// });
 
 module.exports = router;

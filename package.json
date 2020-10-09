@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test-watch": "jest --watchAll",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,9 @@
     "jest": "^26.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.0",
-    "mongoose": "^5.10.1",
+    "mongoose": "^5.10.3",
     "morgan": "^1.10.0",
     "superagent": "^6.0.0",
-    "supergoose": "^0.2.6"
+    "@code-fellows/supergoose": "^0.2.6"
   }
 }

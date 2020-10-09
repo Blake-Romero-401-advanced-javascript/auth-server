@@ -13,28 +13,35 @@ module.exports = async (req, res, next) => {
   // Pull out just the encoded part by splitting the header into an array on the space and popping off the 2nd element
   let token = req.headers.authorization.split(' ').pop();
 
+  users.authenticateToken(token)
+    .then(validUser => {
+      req.user = validUser;
+      next();
+    })
+    .catch(err => next('Invalid Login'));
+}
   // Notice that here, we're catching the errors from the user model.
-  try {
+  // try {
 
-    const validUser = await User.authenticateToken(token);
+  //   const validUser = await User.authenticateToken(token);
 
-    req.user = validUser;
+  //   req.user = validUser;
 
-    /* Lab 14 - add capabilities key/value pair */
-    req.user = {
-      username: validUser.username,
-      fullname: validUser.fullname,
-      email: validUser.email,
-      capabilities: validUser.capabilities,
-    };
+  //   /* Lab 14 - add capabilities key/value pair */
+  //   req.user = {
+  //     username: validUser.username,
+  //     fullname: validUser.fullname,
+  //     email: validUser.email,
+  //     capabilities: validUser.capabilities,
+  //   };
 
-    next();
+  //   next();
 
-  } catch (err) {
+  // } catch (err) {
 
-    next('Invalid Login');
-  }
-};
+  //   next('Invalid Login');
+  // }
+// };
 
 // const users = require('./users-model.js');
 
@@ -46,10 +53,4 @@ module.exports = async (req, res, next) => {
 
 //   let token = req.headers.authorization.split(' ').pop();
 
-//   users.authenticateToken(token)
-//     .then(validUser => {
-//       req.user = validUser;
-//       next();
-//     })
-//     .catch(err => next('Invalid Login'));
-// }
+  

@@ -21,17 +21,25 @@ module.exports = async (req, res, next) => {
 
   console.log('user pass', user, pass);
 
-  const validUser = await users.authenticateBasic(user, pass);
+  return users.authenticateBasic(user, pass)
+    .then(validUser => {
+      req.token = validUser.generateToken();
+      req.user = user;
+      next();
+    })
+    .catch(err => next('error'));
 
-  if (validUser) {
-    const token = validUser.generateToken();
+  // const validUser = await users.authenticateBasic(user, pass);
 
-    req.token = token;
+  // if (validUser) {
+  //   const token = validUser.generateToken();
 
-    next();
+  //   req.token = token;
 
-  } else {
+  //   next();
 
-    next({ 'message': 'Invalid User ID/Password', 'status': 401, 'statusMessage': 'Unauthorized' });
-  }
+  // } else {
+
+  //   next({ 'message': 'Invalid User ID/Password', 'status': 401, 'statusMessage': 'Unauthorized' });
+  // }
 };
